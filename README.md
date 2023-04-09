@@ -1,1 +1,1 @@
-  <img src="https://img.shields.io/badge/gradle-61DAFB?style=flat&logo=gradle&logoColor=#02303A"/>
+  <img src="https://img.shields.io/badge/gradle-02303A?style=flat&logo=gradle&logoColor=white"/>
