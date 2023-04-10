@@ -7,7 +7,7 @@ package org.labit.labitframework.web.servlet;/*
  *
  */
 
-import org.labit.labitframework.web.context.ContextLoader;
+import org.labit.labitframework.web.context.ApplicationContext;
 import org.labit.labitframework.web.servlet.resource.TotalContainer;
 
 import javax.servlet.ServletContext;
@@ -26,19 +26,20 @@ import java.util.Map;
  * @author LABIT
  * @version 1.0
  */
-public class FrontServlet extends FrameWorkServlet {
+public class FrontServlet extends FrameWorkServlet   {
 
     private static List<Class<?>> handler ;
 
     @Override
     protected void onLoad(ServletContext sc) {
         initHandler(sc);
-        initMappingHandler(sc);
+        initMappingHandler();
     }
-
     private void doService(HttpServletRequest request, HttpServletResponse response){
-        Map<Method, Object> controllerMapper = (Map<Method, Object>) request.getServletContext().getAttribute("controllerMapping");
-        System.out.println(controllerMapper.get(request.getRequestURI()));
+        ServiceMappingClassLoader mapHandler = (ServiceMappingClassLoader) getHandler(request);
+        if(mapHandler != null){
+            System.out.println("[INFO] MapHandler : " + mapHandler);
+        }
     }
 
     @Override
@@ -51,12 +52,20 @@ public class FrontServlet extends FrameWorkServlet {
         }
         doService(request, response);
     }
-
     protected static void initHandler(ServletContext servletContext){
         new HandlerFinder(servletContext);
         handler = HandlerFinder.HandlerFinder(servletContext);
     }
-    private static void initMappingHandler(ServletContext servletContext){
-        RequestMappingHandler.initMappingHandle(servletContext, handler);
+    protected static void initMappingHandler(){
+        HandlerMapping.initMappingHandle(handler);
     }
+    private Object getHandler(HttpServletRequest request){
+        Object mapHandler = HandlerMapping.getHandler(request);
+        if(mapHandler == null) {
+            return  null;
+        }
+        return mapHandler;
+    }
+
+
 }

@@ -1,4 +1,4 @@
-package org.labit.labitframework.web.context;/*
+package org.labit.labitframework.web.servlet;/*
  *  @author LABIT
  *
  *  Copyright LABIT , Software License, Version 1.0
@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
  * @author LABIT
  * @version 1.0
  */
-public abstract class ContextLoader {
+public abstract class MappingClassLoader {
 
     /**
      *
@@ -38,7 +38,7 @@ public abstract class ContextLoader {
      * @param response 객체
      * @return RequestDispatcher
      */
-    public abstract RequestDispatcher goService(HttpServletRequest request, HttpServletResponse response);
+    public abstract ModelView goService(HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 컨트롤러 클래스 안에 있는 메소드를 찾음.
@@ -76,20 +76,20 @@ public abstract class ContextLoader {
      * @return
      */
 
-    public RequestDispatcher callMethod(Method method, HttpServletRequest request, HttpServletResponse response){
-        RequestDispatcher requestDispatcher = null;
+    public ModelView callMethod(Method method, HttpServletRequest request, HttpServletResponse response){
+        ModelView modelView = null;
         Object parameters[] = new Object[2];
         parameters[0] = request;
         parameters[1] = response;
 
         try {
-            requestDispatcher = (RequestDispatcher) method.invoke(this, parameters);
+            modelView = (ModelView) method.invoke(this, parameters);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }finally {
-            return requestDispatcher;
+            return modelView;
         }
     }
 

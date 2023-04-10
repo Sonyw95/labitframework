@@ -7,6 +7,7 @@ package org.labit.labitframework.web.context;/*
  *
  */
 
+import javax.servlet.ServletContext;
 
 /**
  * Description : 클래스에 대한 설명을 입력해주세요.<br>
@@ -17,10 +18,10 @@ package org.labit.labitframework.web.context;/*
  * @author LABIT
  * @version 1.0
  */
-public class RootContextLoader  extends ServiceContextLoader{
+public class ApplicationContext {
 
-    private RootContextLoader(){
+    public static ServletContext sc = null;
 
+    static void setContext(ServletContext servletContext){
     }
-
 }

@@ -9,10 +9,8 @@ package org.labit.labitframework.web.servlet;/*
 
 import org.labit.labitframework.web.annotation.Controller;
 import org.labit.labitframework.web.annotation.RequestMapping;
-import org.labit.labitframework.web.context.ContextLoader;
-import org.labit.labitframework.web.context.ServiceContextLoader;
 
-import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
@@ -27,12 +25,13 @@ import java.util.Map;
  * @author LABIT
  * @version 1.0
  */
-public class RequestMappingHandler {
+public class HandlerMapping  {
 
-    public static void initMappingHandle(ServletContext servletContext, List<Class<?>> contextAll){
+    private static Map<String, Map> handler = new HashMap<>() ;
+
+    public static void initMappingHandle(List<Class<?>> contextAll){
 
         System.out.println("[WRAN] START INIT MAPPING HANDLER !!");
-
         Map<Method, Object> controllerMapper = new HashMap<>();
         Map<String, Method> requestMapper = new HashMap<>();
 
@@ -61,8 +60,15 @@ public class RequestMappingHandler {
             }
         }
         System.out.println("[INFO] SUCCESS REQUEST MAPPING END !!");
-        servletContext.setAttribute("controllerMapping", controllerMapper);
-        servletContext.setAttribute("requestMapping", requestMapper);
-
+        handler.put("controllerMapping", controllerMapper);
+        handler.put("requestMapping", requestMapper);
     }
+
+    public static Object getHandler(HttpServletRequest request){
+        System.out.println( handler.get("requestMapping").get(request.getRequestURI()) );
+        return handler.get("controllerMapping").get(handler.get("requestMapping").get(request.getRequestURI()));
+    }
+
+
+
 }

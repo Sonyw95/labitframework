@@ -1,4 +1,4 @@
-package org.labit.labitframework.web.context;/*
+package org.labit.labitframework.web.servlet;/*
  *  @author LABIT
  *
  *  Copyright LABIT , Software License, Version 1.0
@@ -23,7 +23,7 @@ import java.util.Map;
  * @author LABIT
  * @version 1.0
  */
-public class ServiceContextLoader extends ContextLoader {
+public class ServiceMappingClassLoader extends MappingClassLoader {
 
     private Map<String, Method> methodMapper = new HashMap<>();
     @Override
@@ -50,7 +50,7 @@ public class ServiceContextLoader extends ContextLoader {
      * @return
      */
     @Override
-    public RequestDispatcher goService(HttpServletRequest request, HttpServletResponse response) {
+    public ModelView goService(HttpServletRequest request, HttpServletResponse response) {
         String contextPath = request.getContextPath();
         String requestURI = request.getRequestURI();
 
